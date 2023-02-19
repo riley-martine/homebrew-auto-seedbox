@@ -1,12 +1,9 @@
 # Auto Seedbox
 
-Scripts to watch MacOS `~/Downloads` folder for `.torrent` files, upload them
+Scripts to watch macOS `~/Downloads` folder for `.torrent` files, upload them
 to a seedbox, and download the resulting files.
 
-Also has ability to automatically SCP `.epub` files to an online kindle running KOReader.
-
-This repo is titled `homebrew-` because I may try and get this installable
-by brew.
+Also has ability to automatically SCP `.epub` files to an online Kindle running KOReader.
 
 ## Why?
 
@@ -16,20 +13,9 @@ by brew.
 1. To make downloading torrents as easy as any other file
 1. For books, to reduce the activation energy to reading as much as possible
 
-## How?
-
-TODO explanation
-
-This is... not ideal. There are better ways to accomplish the same, but this is
-good enough for now. It is hacky as hell, and will almost certainly not work
-out of the box for you; however, I've written as thorough a guide as possible so
-that the enterprising reader can fix it up for themselves.
-
 ## Requirements
 
-For auto-downloading torrents:
-
-- Admin access on local macOS machine
+- macOS computer with [Homebrew](https://brew.sh) installed
 
 - Seedbox with SFTP access
 
@@ -38,16 +24,6 @@ For auto-downloading torrents:
 
   - Must be running qBittorrent (Probably can make it work otherwise, but this
     is what I chose.)
-
-- bash (Unknown if homebrew bash required. TODO figure that out)
-
-- rclone, jq, libtorrent, python3.11, fswatch (`brew install rclone jq
-  libtorrent-rasterbar python@3.11 fswatch`)
-
-For copying to kindle:
-
-- All of the above
-- nmap, ripgrep (`brew install ripgrep nmap python@3.11`)
 
 ## Setup
 
@@ -189,18 +165,19 @@ This requires some manual configuration to work.
       same as when you ran the scripts manually. Add a [torrent file][abramelin]
       to `~/Downloads`, and watch the logs as it downloads.
 
-   <!-- TODO do you need to -->
+   <!--
    1. You may need to Open System Settings, go to "Privacy and Security", then
       to "Full Disk Access". Click the `+`. In the selection window, press
       Cmd-Shift-G, and type in `/bin/`. Click on `bash`, and select it with
       `open`
+      -->
 
 At this point, you're probably done! Congratulations! However, if you're also
 trying to get your ebooks onto a Kindle, read on...
 
-Note: This probably works with non-kindle KOReader, but I haven't tried it.
+Note: This probably works with non-Kindle KOReader, but I haven't tried it.
 
-1. [Jailbreak][jailbreak] your kindle. Follow ALL instructions in the thread
+1. [Jailbreak][jailbreak] your Kindle. Follow ALL instructions in the thread
    carefully. Do not connect to the internet. This may take a while, but do it
    right.
 
@@ -210,27 +187,27 @@ Note: This probably works with non-kindle KOReader, but I haven't tried it.
 
 1. Disable OTA updates through KUAL
 
-1. If running FW >= 5.12.x, you MUST also disable OTA updates with method
-   described [here][ota]. You can do this through KOReader's shell in `Top Menu
-   > Tools Icon > More Tools > Terminal emulator > Open terminal session`. Here
-   is what I ran (the hosts stuff is a bit extra, but sue me I guess, I was
-   working on this too long to get got by an update):
+   1. If running FW >= 5.12.x, you MUST also disable OTA updates with method
+      described [here][ota]. You can do this through KOReader's shell in Top
+      Menu > Tools Icon > More Tools > Terminal emulator > Open terminal
+      session. Here is what I ran (the hosts stuff is a bit extra, but sue me I
+      guess, I was working on this too long to get got by an update):
 
-   ```shell
-   # mntroot rw
-   # cd /usr/bin
-   # mv otaupd otaupd.bck
-   # mv otav3 otav3.bck
-   # echo "/bin/true" > /usr/bin/otav3
-   # echo "/bin/true" > /usr/bin/otaupd
-   # chmod +x /usr/bin/otav3 /usr/bin/otaupd
-   # echo "127.0.0.1 firs-ta.g7g.amazon.com" >> /etc/hosts
-   # echo "127.0.0.1 amazon.com" >> /etc/hosts
-   # touch /var/local/system/DONT_DELETE_CONTENT_ON_DEREGISTRATION
-   # exit
-   ```
+      ```shell
+      # mntroot rw
+      # cd /usr/bin
+      # mv otaupd otaupd.bck
+      # mv otav3 otav3.bck
+      # echo "/bin/true" > /usr/bin/otav3
+      # echo "/bin/true" > /usr/bin/otaupd
+      # chmod +x /usr/bin/otav3 /usr/bin/otaupd
+      # echo "127.0.0.1 firs-ta.g7g.amazon.com" >> /etc/hosts
+      # echo "127.0.0.1 amazon.com" >> /etc/hosts
+      # touch /var/local/system/DONT_DELETE_CONTENT_ON_DEREGISTRATION
+      # exit
+      ```
 
-   And then reboot the device.
+      And then reboot the device.
 
 1. Connect the device to WiFi. Pray you got everything right.
 
@@ -245,26 +222,18 @@ Note: This probably works with non-kindle KOReader, but I haven't tried it.
 
 1. You may need to change the download path in `auto_kindle/copy_to_kindle.sh`,
    on the line where it runs `scp`. This should be KOReader's home folder, where
-   you want the books to go. Add a file to your kindle in the directory you want
+   you want the books to go. Add a file to your Kindle in the directory you want
    (I used `/mnt/us/documents` because that's where Calibre was putting things)
    and run `# ls /../../../mnt/us/documents/` to confirm you see your file; if
    not, correct the path and edit it in `copy_to_kindle.sh`.
 
 1. Test `./copy_to_kindle.sh ~/Downloads/example.epub`. It may be slow the first
-   time as it finds the Kindle. This should copy a file to the kindle.
+   time as it finds the Kindle. This should copy a file to the Kindle.
 
-<!-- TODO add config for whether to look for kindle or not -->
 1. Test the whole thing together. Find a [torrent][fruit] that has an epub in
    it, download it, and watch the logs (`tail -f
-   /opt/homebrew/var/log/auto-seedbox.log`). If your kindle is online,
+   /opt/homebrew/var/log/auto-seedbox.log`). If your Kindle is online,
    everything should work.
-
-### Troubleshooting
-
-Updates to the base script (`torrent_daemon.sh`) do not get picked up by the
-Launch Agent. The easiest way I've found to deal with this is toggling it off
-and on again in System Settings > Login Items. There's probably a `launchctl`
-command to do this also, though.
 
 ## Developing
 
