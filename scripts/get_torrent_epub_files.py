@@ -21,7 +21,7 @@ if not torrent_file.is_file():
     print("Cannot find file at: {torrent_file}", file=sys.stderr)
     sys.exit(1)
 
-info = libtorrent.torrent_info(torrent_file.absolute())
+info = libtorrent.torrent_info(torrent_file.resolve().as_posix())
 paths = [file.path for file in info.files()]
 
 epubs = [p for p in paths if p.endswith(".epub")]

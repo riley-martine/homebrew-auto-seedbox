@@ -23,6 +23,7 @@ SEEDBOX_USER="$(jq -r -e '.seedbox_user' "$CONFIG")"
 SEEDBOX_HOST="$(jq -r -e '.seedbox_host' "$CONFIG")"
 SEEDBOX_PORT="$(jq -r -e '.seedbox_port' "$CONFIG")"
 SEEDBOX_KEY="$(jq -r -e '.seedbox_key' "$CONFIG")"
+export SEEDBOX_USER
 
 SSH_CONF="$CONFIG_DIR"/sshconfig
 echo "Host seedbox

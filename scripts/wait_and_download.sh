@@ -44,9 +44,10 @@ echo "Done downloading new torrents."
 
 function send_epubs {
     set -x
-    for epub in $(./get_torrent_epub_files.py "$1"); do
-        ./copy_to_kindle.sh "$HOME/Downloads/$epub"
-    done
+    ./get_torrent_epub_files.py "$1" |
+        while read -r epub; do
+            ./copy_to_kindle.sh "$HOME/Downloads/$epub"
+        done
     set +x
 }
 
