@@ -39,7 +39,7 @@ This requires some manual configuration to work.
 
    1. Add key to SSH agent `ssh-add --apple-use-keychain ~/.ssh/id_seedbox`
 
-      - This MAY fail. If so, either `brew unlink openssh` or call
+      - This may fail. If so, either `brew unlink openssh` or call
         `/usr/bin/ssh-add` instead. Homebrew's SSH doesn't work with the macOS
         keychain, which we need if we want to password-protect the key and be
         able to automate this.
@@ -161,8 +161,7 @@ This requires some manual configuration to work.
    1. Run `brew services start auto-seedbox`.
 
    1. To test this is working, `tail -50 -f
-      /opt/homebrew/var/log/auto-seedbox.log`. You should see output that is the
-      same as when you ran the scripts manually. Add a [torrent file][abramelin]
+      /opt/homebrew/var/log/auto-seedbox.log`. Add a [torrent file][abramelin]
       to `~/Downloads`, and watch the logs as it downloads.
 
    <!--
