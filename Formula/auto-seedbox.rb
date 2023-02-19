@@ -8,6 +8,7 @@ class AutoSeedbox < Formula
   sha256 "20f32f22de814b4cbc3cba1ed4eeab03a66ab51aeaf80faeafd9fb9a7d339b56"
   license "GPL-3.0-only"
 
+
   depends_on "jq"
   depends_on "rclone"
   depends_on "libtorrent-rasterbar"
@@ -19,7 +20,7 @@ class AutoSeedbox < Formula
   head "https://github.com/riley-martine/homebrew-auto-seedbox.git", branch: "main"
 
   # TODO delete this once done
-  revision 1
+  revision 3
 
   # I'm kind of using this as a replacement for a Makefile
   # It is what it is
@@ -32,6 +33,7 @@ class AutoSeedbox < Formula
     libexec.install "auto_kindle/get_torrent_epub_files.py"
 
     (var/"log").mkpath
+    system "mkdir -p \"$HOME/.config/auto-seedbox\""
   end
 
   service do
