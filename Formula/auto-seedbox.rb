@@ -33,7 +33,6 @@ class AutoSeedbox < Formula
     libexec.install "auto_kindle/get_torrent_epub_files.py"
 
     (var/"log").mkpath
-    system "mkdir -p \"$HOME/.config/auto-seedbox\""
   end
 
   service do

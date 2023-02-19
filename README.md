@@ -260,6 +260,14 @@ Launch Agent. The easiest way I've found to deal with this is toggling it off
 and on again in System Settings > Login Items. There's probably a `launchctl`
 command to do this also, though.
 
+## Developing
+
+```shell
+brew install --verbose --debug --HEAD ./Formula/auto-seedbox.rb
+brew services restart auto-seedbox
+tail -50 -f /opt/homebrew/var/log/auto-seedbox.log
+```
+
 [add-key-server]: https://linuxhandbook.com/add-ssh-public-key-to-server/
 [kybalion]: https://archive.org/download/kybalionstudyofh00thre/kybalionstudyofh00thre_archive.torrent
 [abramelin]: https://archive.org/download/bookofsacredmagi00abra/bookofsacredmagi00abra_archive.torrent
