@@ -26,7 +26,7 @@ function retry {
     return 0
 }
 
-TORRENT_NAME="$("$GIT_ROOT"/auto_download/torrent_name.py "$1").torrent"
+TORRENT_NAME="$(./torrent_name.py "$1").torrent"
 
 function is_complete {
     rclone lsjson seedbox:/home/"$SEEDBOX_USER"/completed_torrents |
@@ -42,8 +42,8 @@ echo "Done downloading new torrents."
 
 function send_epubs {
     set -x
-    for epub in $("$GIT_ROOT"/auto_kindle/get_torrent_epub_files.py "$1"); do
-        "$GIT_ROOT"/auto_kindle/copy_to_kindle.sh "$HOME/Downloads/$epub"
+    for epub in $(./get_torrent_epub_files.py "$1"); do
+        ./copy_to_kindle.sh "$HOME/Downloads/$epub"
     done
     set +x
 }

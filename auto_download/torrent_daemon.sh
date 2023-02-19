@@ -11,7 +11,6 @@ ssh-add --apple-load-keychain
 
 export PATH="/opt/homebrew/bin:/opt/homebrew/sbin${PATH+:$PATH}"
 
-export GIT_ROOT="$HOME/dev/homebrew-auto-seedbox"
 export SEEDBOX_USER="${SEEDBOX_USER:-root}"
 
 # shellcheck disable=SC2016
@@ -21,6 +20,6 @@ fswatch -0 -E -e '.*' -i '.+\.torrent$' --event Created ~/Downloads/ |
         && echo "Copying $arg" \
         && scp -B "$arg" seedbox:/home/"$SEEDBOX_USER"/twatch/ \
         && echo "Done copying. Starting download wait..." \
-        && "$GIT_ROOT"/auto_download/wait_and_download.sh "$arg" \
+        && ./wait_and_download.sh "$arg" \
         && rm "$arg" \
         && echo "Done downloading. Removed $arg."; done' _
