@@ -29,88 +29,86 @@ Also has ability to automatically SCP `.epub` files to an online Kindle running 
 
 This requires some manual configuration to work.
 
-1. Confirm SFTP access to seedbox, with username/password
-   - `sftp -P <PORT> <USERNAME>@<HOSTNAME>`, and enter password
+### Set up public key authentication
 
-1. Set up public key authentication
+1. Generate SSH key: `ssh-keygen -t ed25519 -f ~/.ssh/id_seedbox`
+   - Use a password manager to generate a secure passphrase. Save it.
 
-   1. Generate SSH key: `ssh-keygen -t ed25519 -f ~/.ssh/id_seedbox`
-      - Use a password manager to generate a secure passphrase. Save it.
+1. Add key to SSH agent `ssh-add --apple-use-keychain ~/.ssh/id_seedbox`
 
-   1. Add key to SSH agent `ssh-add --apple-use-keychain ~/.ssh/id_seedbox`
+   - This may fail. If so, either `brew unlink openssh` or call
+     `/usr/bin/ssh-add` instead. Homebrew's SSH doesn't work with the macOS
+     keychain, which we need if we want to password-protect the key and be
+     able to automate this.
 
-      - This may fail. If so, either `brew unlink openssh` or call
-        `/usr/bin/ssh-add` instead. Homebrew's SSH doesn't work with the macOS
-        keychain, which we need if we want to password-protect the key and be
-        able to automate this.
+1. Write to your `~/.ssh/config`, filling in the values:
 
-   1. Write to your `~/.ssh/config`, filling in the values:
+   ```config
+    Host seedbox
+        HostName <HOSTNAME>
+        User <USERNAME>
+        Port <PORT>
+        IdentityFile ~/.ssh/id_seedbox
+    ```
 
-      ```config
-       Host seedbox
-           HostName <HOSTNAME>
-           User <USERNAME>
-           Port <PORT>
-           IdentityFile ~/.ssh/id_seedbox
-       ```
+    This isn't necessary (the script generates its own config), but it's a
+    solid quality-of-life improvement.
 
-       This isn't necessary (the script generates its own config), but it's a
-       solid quality-of-life improvement.
+1. Add the public key to your seedbox. See [here][add-key-server] for
+   instructions.
+   - If you don't have SSH access, this can still be done over SFTP. It will
+     look something like this:
 
-   1. Add the public key to your seedbox. See [here][add-key-server] for
-      instructions.
-      - If you don't have SSH access, this can still be done over SFTP. It will
-        look something like this:
+     ```shell
+     $ cd ~/
+     $ sftp -P <PORT> <USERNAME>@<HOSTNAME>
+     # This may be unnecessary if the directory already exists
+     sftp> pwd
+     Remote working directory: /home/<USERNAME>
+     # If the above is not the home directory, cd into it.
+     sftp> mkdir .ssh
+     sftp> put .ssh/id_seedbox.pub .ssh/authorized_keys
+     sftp> chmod 700 .ssh
+     sftp> chmod 600 .ssh/authorized_keys
+     ```
 
-        ```shell
-        $ cd ~/
-        $ sftp -P <PORT> <USERNAME>@<HOSTNAME>
-        # This may be unnecessary if the directory already exists
-        sftp> pwd
-        Remote working directory: /home/<USERNAME>
-        # If the above is not the home directory, cd into it.
-        sftp> mkdir .ssh
-        sftp> put .ssh/id_seedbox.pub .ssh/authorized_keys
-        sftp> chmod 700 .ssh
-        sftp> chmod 600 .ssh/authorized_keys
-        ```
+1. Restart the seedbox.
 
-   1. Restart the seedbox.
+1. Run `sftp seedbox`. This should sign you in without needing a password.
+  - If this fails, try `ssh-add --apple-load-keychain`
+  - Confirm you restarted the seedbox
 
-   1. Run `sftp seedbox`. This should sign you in without needing a password.
-     - If this fails, try `ssh-add --apple-load-keychain`
-     - Confirm you restarted the seedbox
+### Set up qBittorrent
 
-1. Set up qBittorrent
-   1. Make watch directories:
+1. Make watch directories:
 
-   ```shell
-   $ sftp seedbox
-   sftp> pwd
-   Remote working directory: /home/<USERNAME>
-   sftp> mkdir twatch
-   sftp> mkdir twatch_out
-   sftp> mkdir completed_torrents
-   ```
+```shell
+$ sftp seedbox
+sftp> pwd
+Remote working directory: /home/<USERNAME>
+sftp> mkdir twatch
+sftp> mkdir twatch_out
+sftp> mkdir completed_torrents
+```
 
-   1. Sign in to the web UI for qBittorrent
+1. Sign in to the web UI for qBittorrent
 
-   1. Go to Tools > Options
+1. Go to Tools > Options
 
-   1. Check "Copy .torrent files for finished downloads to:" and set the value
-      to `/home/<USERNAME>/completed_torrents`
+1. Check "Copy .torrent files for finished downloads to:" and set the value
+   to `/home/<USERNAME>/completed_torrents`
 
-   1. Under "Automatically add torrents from:" add a line with "Monitored
-      Folder" being `/home/<USERNAME>/twatch` and "Override Save Location" being
-      `/home/<USERNAME>/twatch_out/`
+1. Under "Automatically add torrents from:" add a line with "Monitored
+   Folder" being `/home/<USERNAME>/twatch` and "Override Save Location" being
+   `/home/<USERNAME>/twatch_out/`
 
-   1. Scroll to the bottom and click "save"
+1. Scroll to the bottom and click "save"
 
-   1. Test this by `sftp`ing into the server, and copying a .torrent file to
-      `/home/<USERNAME>/twatch`. Wait for it to complete by watching the web UI,
-      and then check that there is a `.torrent` file for the download in
-      `/home/<USERNAME>/completed_torrents`, and the actual files are in
-      `/home/<USERNAME>/twatch_out`.
+1. Test this by `sftp`ing into the server, and copying a .torrent file to
+   `/home/<USERNAME>/twatch`. Wait for it to complete by watching the web UI,
+   and then check that there is a `.torrent` file for the download in
+   `/home/<USERNAME>/completed_torrents`, and the actual files are in
+   `/home/<USERNAME>/twatch_out`.
 
 <!--
 1. Set up `~/.config/rclone/rclone.conf`. It should look something like this:
@@ -134,45 +132,47 @@ This requires some manual configuration to work.
      wizard at `rclone config`
 -->
 
-1. Test watching and downloading scripts
+### Install auto-seedbox
 
-   1. Install [Homebrew](https://brew.sh) if you haven't already.
+1. Install [Homebrew](https://brew.sh) if you haven't already.
 
-   1. Install this repo:
+1. Install this repo:
 
-      ```shell
-      brew tap riley-martine/auto-seedbox
-      brew install auto-seedbox
-      ```
+   ```shell
+   brew tap riley-martine/auto-seedbox
+   brew install auto-seedbox
+   ```
 
-   1. Set up your config in `~/.config/auto-seedbox/config.json`. All fields are
-      required. It should look like this:
+1. Set up your config in `~/.config/auto-seedbox/config.json`. All fields are
+   required. It should look like this:
 
-      ```json
-      {
-          "seedbox_user": "root",
-          "seedbox_host": "website.address",
-          "seedbox_port": "7777",
-          "seedbox_key": "~/.ssh/id_seedbox",
-          "send_to_kindle": true
-      }
-      ```
+   ```json
+   {
+       "seedbox_user": "root",
+       "seedbox_host": "website.address",
+       "seedbox_port": "7777",
+       "seedbox_key": "~/.ssh/id_seedbox",
+       "send_to_kindle": true
+   }
+   ```
 
-   1. Run `brew services start auto-seedbox`.
+1. Run `brew services start auto-seedbox`.
 
-   1. To test this is working, `tail -50 -f
-      /opt/homebrew/var/log/auto-seedbox.log`. Add a [torrent file][abramelin]
-      to `~/Downloads`, and watch the logs as it downloads.
+1. To test this is working, `tail -50 -f
+   /opt/homebrew/var/log/auto-seedbox.log`. Add a [torrent file][abramelin]
+   to `~/Downloads`, and watch the logs as it downloads.
 
-   <!--
-   1. You may need to Open System Settings, go to "Privacy and Security", then
-      to "Full Disk Access". Click the `+`. In the selection window, press
-      Cmd-Shift-G, and type in `/bin/`. Click on `bash`, and select it with
-      `open`
-      -->
+<!--
+1. You may need to Open System Settings, go to "Privacy and Security", then
+   to "Full Disk Access". Click the `+`. In the selection window, press
+   Cmd-Shift-G, and type in `/bin/`. Click on `bash`, and select it with
+   `open`
+   -->
 
 At this point, you're probably done! Congratulations! However, if you're also
 trying to get your ebooks onto a Kindle, read on...
+
+### (Optional) Set up Kindle
 
 Note: This probably works with non-Kindle KOReader, but I haven't tried it.
 
