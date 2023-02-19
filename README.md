@@ -24,10 +24,14 @@ Also has ability to automatically SCP `.epub` files to an online Kindle running 
 
   - Must be running qBittorrent (Probably can make it work otherwise, but this
     is what I chose.)
+    
+  - This could be local, cloud self-run, or [managed][seedit4me]
 
 ## Setup
 
-This requires some manual configuration to work.
+This requires some manual configuration to work. I haven't tested this on
+setups that are not my own. If this doesn't work for you, please file an
+issue.
 
 ### Set up public key authentication
 
@@ -249,3 +253,4 @@ tail -50 -f /opt/homebrew/var/log/auto-seedbox.log
 [ota]: https://www.mobileread.com/forums/showthread.php?t=327879&highlight=touch&page=2
 [koreader-install]: https://github.com/koreader/koreader/wiki/Installation-on-Kindle-devices
 [fruit]: https://archive.org/download/forbiddenfruitlu28520gut/forbiddenfruitlu28520gut_archive.torrent
+[seedit4me]: https://seedit4.me/
