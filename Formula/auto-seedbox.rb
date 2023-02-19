@@ -1,5 +1,5 @@
 class AutoSeedbox < Formula
-  desc "Watch MacOS downloads folder for .torrents, upload them to seedbox, download resulting files."
+  desc "Watch macOS downloads folder for .torrents, upload them to seedbox, download resulting files."
   homepage "https://github.com/riley-martine/homebrew-auto-seedbox"
 
   # TODO do we need version?
