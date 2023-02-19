@@ -155,6 +155,10 @@ This requires some manual configuration to work.
 
 1. Test watching and downloading scripts
 
+   1. TODO homebrew install
+
+   1. `brew services start auto-seedbox`
+
    1. If you haven't already, clone this repo: `git clone
       https://github.com/riley-martine/homebrew-auto-seedbox` and `cd
       homebrew-auto-seedbox`
@@ -180,7 +184,7 @@ This requires some manual configuration to work.
    1. You MAY need to run `launchctl start uploadtorrents` or similar.
 
    <!-- TODO switch log loc -->
-   1. To test this is working, `tail -f ~/Library/Logs/torrent_daemon.log`. You
+   1. To test this is working, `tail -f /opt/homebrew/var/log/auto-seedbox.log`. You
       should see output that is the same as when you ran the scripts manually.
       Add a [torrent file][abramelin] to `~/Downloads`, and watch the logs as it
       downloads.
@@ -246,8 +250,8 @@ Note: This probably works with non-kindle KOReader, but I haven't tried it.
 <!-- TODO add config for whether to look for kindle or not -->
 1. Test the whole thing together. Find a [torrent][fruit] that has an epub in
    it, download it, and watch the logs (`tail -f
-   ~/Library/Logs/torrent_daemon.log`). If your kindle is online, everything
-   should work.
+   /opt/homebrew/var/log/auto-seedbox.log`). If your kindle is online,
+   everything should work.
 
 ### Troubleshooting
 

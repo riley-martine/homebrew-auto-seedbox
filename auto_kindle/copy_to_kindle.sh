@@ -17,10 +17,13 @@ if [ ! -f "$FILE" ]; then
 fi
 echo "Registered desire to copy $FILE to kindle..."
 
+IP_FILE="$(brew --prefix)/var/cache/.prev_kindle_ip"
+export IP_FILE
+
 echo "Locating kindle..."
 IP=''
-if [ -f "$GIT_ROOT"/.prev_kindle_ip ]; then
-    IP="$(cat "$GIT_ROOT"/.prev_kindle_ip)"
+if [ -f "$IP_FILE" ]; then
+    IP="$(cat "$IP_FILE")"
 fi
 
 if [ -z "$IP" ] || ! nc -zv -G 2 "$IP" 2323 2> /dev/null; then
@@ -28,7 +31,7 @@ if [ -z "$IP" ] || ! nc -zv -G 2 "$IP" 2323 2> /dev/null; then
     IP="$(nmap -p2323 -Pn -R --open -oG /dev/stdout 192.168.1.0/24 |
         rg --only-matching "Host: (192.168.1.\d+)" -r '$1' |
         head -n1)"
-    echo "$IP" > "$GIT_ROOT"/.prev_kindle_ip
+    echo "$IP" > "$IP_FILE"
 fi
 echo "Kindle found: $IP"
 
