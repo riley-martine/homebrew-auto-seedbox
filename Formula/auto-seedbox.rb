@@ -2,10 +2,8 @@ class AutoSeedbox < Formula
   desc "Watch macOS downloads folder for .torrents, upload them to seedbox, download resulting files."
   homepage "https://github.com/riley-martine/homebrew-auto-seedbox"
 
-  # TODO do we need version?
-  # version "v0.0.1"
-  url "https://github.com/riley-martine/homebrew-auto-seedbox/archive/refs/tags/v0.0.1.tar.gz"
-  sha256 "20f32f22de814b4cbc3cba1ed4eeab03a66ab51aeaf80faeafd9fb9a7d339b56"
+  url "https://github.com/riley-martine/homebrew-auto-seedbox/archive/refs/tags/v1.0.0.tar.gz"
+  sha256 "a0231d4c01aa0ad6021932f8308214a90d73c0eb6e9b16eb6aba0a6fb34dc84d"
   license "GPL-3.0-only"
 
 
@@ -19,8 +17,6 @@ class AutoSeedbox < Formula
 
   head "https://github.com/riley-martine/homebrew-auto-seedbox.git", branch: "main"
 
-  # TODO delete this once done
-  revision 3
 
   # I'm kind of using this as a replacement for a Makefile
   # It is what it is
@@ -41,11 +37,5 @@ class AutoSeedbox < Formula
     log_path var/"log/auto-seedbox.log"
     error_log_path var/"log/auto-seedbox.log"
     working_dir libexec
-  end
-
-  test do
-    # The installed folder is not in the path, so use the entire path to any
-    # executables being tested: `system "#{bin}/program", "do", "something"`.
-    system "false"
   end
 end
