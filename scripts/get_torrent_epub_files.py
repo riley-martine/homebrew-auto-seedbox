@@ -18,7 +18,7 @@ if len(sys.argv) != 2:
 
 torrent_file = pathlib.Path(sys.argv[1])
 if not torrent_file.is_file():
-    print("Cannot find file at: {torrent_file}", file=sys.stderr)
+    print(f"Cannot find file at: {torrent_file}", file=sys.stderr)
     sys.exit(1)
 
 info = libtorrent.torrent_info(torrent_file.resolve().as_posix())

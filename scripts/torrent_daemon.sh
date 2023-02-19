@@ -18,6 +18,7 @@ if [ ! -f "$CONFIG" ]; then
     echo "No config file found at $CONFIG" >&2
     exit 1
 fi
+export CONFIG
 
 SEEDBOX_USER="$(jq -r -e '.seedbox_user' "$CONFIG")"
 SEEDBOX_HOST="$(jq -r -e '.seedbox_host' "$CONFIG")"
@@ -43,6 +44,11 @@ shell_type = unix
 md5sum_command = none
 sha1sum_command = none" > "$RCLONE_CONF"
 export RCLONE_CONF
+
+function do_send_to_kindle {
+    jq -r -e '.send_to_kindle' "$CONFIG"
+}
+export -f do_send_to_kindle
 
 # shellcheck disable=SC2016
 fswatch -0 -E -e '.*' -i '.+\.torrent$' --event Created ~/Downloads/ |
