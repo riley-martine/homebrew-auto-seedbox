@@ -21,4 +21,4 @@ if not torrent_file.is_file():
     print("Cannot find file at: {torrent_file}", file=sys.stderr)
     sys.exit(1)
 
-print(libtorrent.torrent_info(torrent_file.absolute()).name())
+print(libtorrent.torrent_info(torrent_file.resolve().as_posix()).name())
