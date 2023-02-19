@@ -51,6 +51,8 @@ function send_epubs {
     set +x
 }
 
-# Don't care that much if it fails
-# Which it might, if kindle is offline, which it often is!
-retry 20 send_epubs "$1" || echo "Failed to send epubs."
+if do_send_to_kindle; then
+    # Don't care that much if it fails
+    # Which it might, if kindle is offline, which it often is!
+    retry 20 send_epubs "$1" || echo "Failed to send epubs."
+fi

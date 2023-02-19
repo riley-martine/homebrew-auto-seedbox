@@ -78,6 +78,9 @@ This requires some manual configuration to work.
            IdentityFile ~/.ssh/id_seedbox
        ```
 
+       This isn't necessary (the script generates its own config), but it's a
+       solid quality-of-life improvement.
+
    1. Add the public key to your seedbox. See [here][add-key-server] for
       instructions.
       - If you don't have SSH access, this can still be done over SFTP. It will
@@ -133,6 +136,7 @@ This requires some manual configuration to work.
       `/home/<USERNAME>/completed_torrents`, and the actual files are in
       `/home/<USERNAME>/twatch_out`.
 
+<!--
 1. Set up `~/.config/rclone/rclone.conf`. It should look something like this:
 
    ```config
@@ -152,42 +156,44 @@ This requires some manual configuration to work.
 
    - If this fails, you can try messing around with the interactive config
      wizard at `rclone config`
+-->
 
 1. Test watching and downloading scripts
 
-   1. TODO homebrew install
+   1. Install [Homebrew](https://brew.sh) if you haven't already.
 
-   1. `brew services start auto-seedbox`
+   1. Install this repo:
 
-   1. If you haven't already, clone this repo: `git clone
-      https://github.com/riley-martine/homebrew-auto-seedbox` and `cd
-      homebrew-auto-seedbox`
+      ```shell
+      brew tap riley-martine/auto-seedbox
+      brew install auto-seedbox
+      ```
 
-   1. Run `./auto_download/torrent_daemon.sh`
-      - This should print `Identity added: /Users/<LOCAL
-        USERNAME>/.ssh/id_seedbox` and then wait.
+   1. Set up your config in `~/.config/auto-seedbox/config.json`. All fields are
+      required. It should look like this:
 
-   1. Move a torrent file to `~/Downloads`. You can [download one][kybalion].
-      Watch the logs for the program; it should print what it's doing, upload to
-      the seedbox, and download the file(s) to `~/Downloads`
+      ```json
+      {
+          "seedbox_user": "root",
+          "seedbox_host": "website.address",
+          "seedbox_port": "7777",
+          "seedbox_key": "~/.ssh/id_seedbox",
+          "send_to_kindle": true
+      }
+      ```
 
-1. Set up Launch Agent, so this runs automatically.
+   1. Run `brew services start auto-seedbox`.
 
-   1. `cp auto_download/uploadtorrents.plist ~/Library/LaunchAgents`
+   1. To test this is working, `tail -50 -f
+      /opt/homebrew/var/log/auto-seedbox.log`. You should see output that is the
+      same as when you ran the scripts manually. Add a [torrent file][abramelin]
+      to `~/Downloads`, and watch the logs as it downloads.
 
-   1. Open System Settings, go to "Login Items", and enable `torrent_daemon.sh`
-
-   1. Open System Settings, go to "Privacy and Security", then to "Full Disk
-      Access". Click the `+`. In the selection window, press Cmd-Shift-G, and
-      type in `/bin/`. Click on `bash`, and select it with `open`
-
-   1. You MAY need to run `launchctl start uploadtorrents` or similar.
-
-   <!-- TODO switch log loc -->
-   1. To test this is working, `tail -f /opt/homebrew/var/log/auto-seedbox.log`. You
-      should see output that is the same as when you ran the scripts manually.
-      Add a [torrent file][abramelin] to `~/Downloads`, and watch the logs as it
-      downloads.
+   <!-- TODO do you need to -->
+   1. You may need to Open System Settings, go to "Privacy and Security", then
+      to "Full Disk Access". Click the `+`. In the selection window, press
+      Cmd-Shift-G, and type in `/bin/`. Click on `bash`, and select it with
+      `open`
 
 At this point, you're probably done! Congratulations! However, if you're also
 trying to get your ebooks onto a Kindle, read on...
