@@ -29,7 +29,8 @@ function retry {
 TORRENT_NAME="$(./torrent_name.py "$1").torrent"
 
 function is_complete {
-    rclone lsjson seedbox:/home/"$SEEDBOX_USER"/completed_torrents |
+    rclone --config "$RCLONE_CONF" lsjson \
+        seedbox:/home/"$SEEDBOX_USER"/completed_torrents |
         jq -e --arg FILENAME "$TORRENT_NAME" '.[]|select(.Name == $FILENAME)' > /dev/null
 }
 
@@ -37,7 +38,8 @@ echo "Waiting for $TORRENT_NAME to finish downloading to seedbox..."
 retry 240 is_complete "$TORRENT_NAME"
 echo "$TORRENT_NAME has completed download to seedbox. Downloading new torrents to local..."
 
-rclone --max-age 24h --no-traverse copy seedbox:/home/"$SEEDBOX_USER"/twatch_out/ ~/Downloads
+rclone --config "$RCLONE_CONF" --max-age 24h --no-traverse copy \
+    seedbox:/home/"$SEEDBOX_USER"/twatch_out/ ~/Downloads
 echo "Done downloading new torrents."
 
 function send_epubs {
