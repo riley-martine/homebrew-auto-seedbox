@@ -26,11 +26,11 @@ class AutoSeedbox < Formula
   # It is what it is
   def install
     libexec.mkpath
-    libexec.install "auto_download/torrent_daemon.sh"
-    libexec.install "auto_download/torrent_name.py"
-    libexec.install "auto_download/wait_and_download.sh"
-    libexec.install "auto_kindle/copy_to_kindle.sh"
-    libexec.install "auto_kindle/get_torrent_epub_files.py"
+    libexec.install "scripts/torrent_daemon.sh"
+    libexec.install "scripts/torrent_name.py"
+    libexec.install "scripts/wait_and_download.sh"
+    libexec.install "scripts/copy_to_kindle.sh"
+    libexec.install "scripts/get_torrent_epub_files.py"
 
     (var/"log").mkpath
   end
