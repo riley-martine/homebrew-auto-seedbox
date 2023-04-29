@@ -50,6 +50,8 @@ function do_send_to_kindle {
 }
 export -f do_send_to_kindle
 
+# TODO add temporary disable
+# TODO figure out why fswatch sometimes seems to fire two events
 # shellcheck disable=SC2016
 fswatch -0 -E -e '.*' -i '.+\.torrent$' --event Created ~/Downloads/ |
     xargs -0 -n 1 -P 4 bash -exo pipefail -c 'for arg do [ -f "$arg" ] \
