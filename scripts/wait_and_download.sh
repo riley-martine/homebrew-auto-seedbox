@@ -38,9 +38,13 @@ echo "Waiting for $TORRENT_NAME to finish downloading to seedbox..."
 retry 240 is_complete "$TORRENT_NAME"
 echo "$TORRENT_NAME has completed download to seedbox. Downloading new torrents to local..."
 
+DOWNLOAD_TARGET="$(./get_download_target.py "$1")"
+echo "Grabbing $DOWNLOAD_TARGET"
+
 rclone --config "$RCLONE_CONF" --max-age 24h --no-traverse copy \
-    seedbox:/home/"$SEEDBOX_USER"/twatch_out/ ~/Downloads
-echo "Done downloading new torrents."
+    seedbox:/home/"$SEEDBOX_USER"/twatch_out/"$DOWNLOAD_TARGET" \
+    ~/Downloads/"$DOWNLOAD_TARGET"
+echo "Done downloading torrent."
 
 function send_epubs {
     set -x
