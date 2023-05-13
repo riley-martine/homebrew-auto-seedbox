@@ -2,8 +2,8 @@ class AutoSeedbox < Formula
   desc "Watch macOS downloads folder for .torrents, upload them to seedbox, download resulting files."
   homepage "https://github.com/riley-martine/homebrew-auto-seedbox"
 
-  url "https://github.com/riley-martine/homebrew-auto-seedbox/archive/refs/tags/v1.0.1.tar.gz"
-  sha256 "d3cb6f248d59ebff7944fac7504f62b34791220e214defd5e98f78b7b32cc6e2"
+  url "https://github.com/riley-martine/homebrew-auto-seedbox/archive/refs/tags/v1.0.2.tar.gz"
+  sha256 "b4c7fd6e8529902b9ced0d30544faac9424335a9ad3f7c513b942ae98b24c074"
   license "GPL-3.0-only"
 
 
@@ -27,6 +27,8 @@ class AutoSeedbox < Formula
     libexec.install "scripts/wait_and_download.sh"
     libexec.install "scripts/copy_to_kindle.sh"
     libexec.install "scripts/get_torrent_epub_files.py"
+    libexec.install "scripts/set_vars.sh"
+    libexec.install "scripts/get_download_target.py"
 
     (var/"log").mkpath
   end
