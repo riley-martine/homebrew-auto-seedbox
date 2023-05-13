@@ -21,4 +21,9 @@ if not torrent_file.is_file():
     print(f"Cannot find file at: {torrent_file}", file=sys.stderr)
     sys.exit(1)
 
-print(libtorrent.torrent_info(torrent_file.resolve().as_posix()).name())
+# Something qbittorrent does replaces some characters with question marks
+# This may be what is happening if `./wait_and_download.sh` is exiting (4)
+# Unsure what other chars cause it.
+print(
+    libtorrent.torrent_info(torrent_file.resolve().as_posix()).name().replace("’", "?")
+)
