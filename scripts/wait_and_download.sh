@@ -2,7 +2,7 @@
 
 # Wait for a specified torrent to be downloaded to the seedbox,
 # then download it to ~/Downloads with rclone
-set -euo pipefail
+set -euxo pipefail
 
 # https://gist.github.com/sj26/88e1c6584397bb7c13bd11108a579746
 function retry {
@@ -41,7 +41,7 @@ echo "$TORRENT_NAME has completed download to seedbox. Downloading new torrents 
 DOWNLOAD_TARGET="$(./get_download_target.py "$1")"
 echo "Grabbing $DOWNLOAD_TARGET"
 
-rclone --config "$RCLONE_CONF" --max-age 24h --no-traverse copy \
+rclone --config "$RCLONE_CONF" --no-traverse copy \
     seedbox:/home/"$SEEDBOX_USER"/twatch_out/"$DOWNLOAD_TARGET" \
     ~/Downloads/"$DOWNLOAD_TARGET"
 echo "Done downloading torrent."
