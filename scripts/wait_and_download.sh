@@ -41,16 +41,21 @@ echo "$TORRENT_NAME has completed download to seedbox. Downloading new torrents 
 DOWNLOAD_TARGET="$(./get_download_target.py "$1")"
 echo "Grabbing $DOWNLOAD_TARGET"
 
-rclone --config "$RCLONE_CONF" --no-traverse copy \
+rclone \
+    --verbose \
+    --config "$RCLONE_CONF" \
+    --no-traverse \
+    copy \
     seedbox:/home/"$SEEDBOX_USER"/twatch_out/"$DOWNLOAD_TARGET" \
     ~/Downloads/"$DOWNLOAD_TARGET"
+
 echo "Done downloading torrent."
 
 function send_epubs {
     set -x
     ./get_torrent_epub_files.py "$1" |
         while read -r epub; do
-            ./copy_to_kindle.sh "$HOME/Downloads/$epub"
+            ./copy_to_kindle.sh "$HOME/Downloads/$DOWNLOAD_TARGET/$epub"
         done
     set +x
 }
