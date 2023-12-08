@@ -25,5 +25,10 @@ if not torrent_file.is_file():
 # This may be what is happening if `./wait_and_download.sh` is exiting (4)
 # Unsure what other chars cause it.
 print(
-    libtorrent.torrent_info(torrent_file.resolve().as_posix()).name().replace("’", "?")
+    "".join(
+        [
+            i if ord(i) < 128 else "?"
+            for i in libtorrent.torrent_info(torrent_file.resolve().as_posix()).name()
+        ]
+    )
 )
