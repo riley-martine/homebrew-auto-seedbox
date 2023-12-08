@@ -2,8 +2,8 @@ class AutoSeedbox < Formula
   desc "Watch macOS downloads folder for .torrents, upload them to seedbox, download resulting files."
   homepage "https://github.com/riley-martine/homebrew-auto-seedbox"
 
-  url "https://github.com/riley-martine/homebrew-auto-seedbox/archive/refs/tags/v1.0.4.tar.gz"
-  sha256 "c2e2e46b505fb27fbda187ba3afde41344bfae167f19a8ed5ad268e1db265571"
+  url "https://github.com/riley-martine/homebrew-auto-seedbox/archive/refs/tags/v1.0.5.tar.gz"
+  sha256 "d5cb8d1cd49317b40b8766d6bc5a9fcd1cfe473e9dfbbfa3001afe82466b84f8"
   license "GPL-3.0-only"
 
 
