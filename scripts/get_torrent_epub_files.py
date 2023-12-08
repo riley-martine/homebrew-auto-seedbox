@@ -1,7 +1,7 @@
-#!/opt/homebrew/bin/python3.11
+#!/opt/homebrew/bin/python3.12
 """Print the 'file' metadata from a torrent file, where files are PDF or EPUB"""
 
-# Needs to be brew python3.11 for libtorrent bindings
+# Needs to be brew python3.12 for libtorrent bindings
 
 import pathlib
 import sys
