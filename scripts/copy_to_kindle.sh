@@ -38,5 +38,5 @@ echo "Kindle found: $IP"
 echo "Copying $FILE..."
 # No password
 SSH_ASKPASS_REQUIRE=force SSH_ASKPASS="echo" scp -o "StrictHostKeyChecking no" \
-    "$1" "scp://root@${IP}:2323/../../../mnt/us/documents/"
+    "$FILE" "scp://root@${IP}:2323/../../../mnt/us/documents/"
 echo "Done, file sent to kindle."
