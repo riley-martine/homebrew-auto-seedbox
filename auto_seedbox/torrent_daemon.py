@@ -237,7 +237,7 @@ def poll(
     logging.error("Failed to download to seedbox in a timely fashion.")
 
 
-if __name__ == "__main__":
+def main():
     config = Config.schema().loads(
         (Path.home() / ".config/auto-seedbox/config.json").read_text()
     )
@@ -270,3 +270,7 @@ if __name__ == "__main__":
 
     while True:
         time.sleep(1)
+
+
+if __name__ == "__main__":
+    main()
