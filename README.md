@@ -24,7 +24,7 @@ Also has ability to automatically SCP `.epub` files to an online Kindle running 
 
   - Must be running qBittorrent (Probably can make it work otherwise, but this
     is what I chose.)
-    
+
   - This could be local, cloud self-run, or [managed][seedit4me]
 
 ## Setup
@@ -245,6 +245,8 @@ brew install --verbose --debug --HEAD ./Formula/auto-seedbox.rb
 brew services restart auto-seedbox
 tail -50 -f /opt/homebrew/var/log/auto-seedbox.log
 ```
+
+`ssh-keygen -lf ~/.ssh/id_seedbox.pub`
 
 [add-key-server]: https://linuxhandbook.com/add-ssh-public-key-to-server/
 [kybalion]: https://archive.org/download/kybalionstudyofh00thre/kybalionstudyofh00thre_archive.torrent
