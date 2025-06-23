@@ -26,21 +26,22 @@ class AutoSeedbox < Formula
     virtualenv_create(libexec, "python3.12")
     virtualenv_install_with_resources
 
-    libexec.mkpath
-    libexec.install "scripts/set_vars.sh"
-    libexec.install "scripts/torrent_daemon.sh"
+    (libexec/"bin").mkpath
+    (libexec/"bin").install "scripts/set_vars.sh"
+    (libexec/"bin").install "scripts/torrent_daemon.sh"
+    (libexec/"bin").install "scripts/copy_to_kindle.sh"
 
     bin.mkpath
-    bin.install "scripts/copy_to_kindle.sh"
+    link libexec/"bin/copy_to_kindle.sh", bin/"copy_to_kindle"
 
     (var/"log").mkpath
   end
 
   service do
-    run libexec/"torrent_daemon.sh"
+    # working_dir libexec
+    run libexec/"bin/torrent_daemon.sh"
     keep_alive true
     log_path var/"log/auto-seedbox.log"
     error_log_path var/"log/auto-seedbox.log"
-    working_dir libexec
   end
 end
