@@ -13,26 +13,26 @@ if [ ! -f "$CONFIG" ]; then
 fi
 export CONFIG
 
-SEEDBOX_USER="$(jq -r -e '.seedbox_user' "$CONFIG")"
-SEEDBOX_HOST="$(jq -r -e '.seedbox_host' "$CONFIG")"
-SEEDBOX_PORT="$(jq -r -e '.seedbox_port' "$CONFIG")"
-SEEDBOX_KEY="$(jq -r -e '.seedbox_key' "$CONFIG")"
-export SEEDBOX_USER
+SSH_USER="$(jq -r -e '.ssh_user' "$CONFIG")"
+SSH_HOST="$(jq -r -e '.ssh_host' "$CONFIG")"
+SSH_PORT="$(jq -r -e '.ssh_port' "$CONFIG")"
+SSH_KEY="$(jq -r -e '.ssh_key' "$CONFIG")"
+export SSH_USER
 
 SSH_CONF="$CONFIG_DIR"/sshconfig
 echo "Host seedbox
-    HostName $SEEDBOX_HOST
-    User $SEEDBOX_USER
-    Port $SEEDBOX_PORT
-    IdentityFile $SEEDBOX_KEY" > "$SSH_CONF"
+    HostName $SSH_HOST
+    User $SSH_USER
+    Port $SSH_PORT
+    IdentityFile $SSH_KEY" > "$SSH_CONF"
 export SSH_CONF
 
 RCLONE_CONF="$CONFIG_DIR"/rclone.conf
 echo "[seedbox]
 type = sftp
-host = $SEEDBOX_HOST
-user = $SEEDBOX_USER
-port = $SEEDBOX_PORT
+host = $SSH_HOST
+user = $SSH_USER
+port = $SSH_PORT
 shell_type = unix
 md5sum_command = none
 sha1sum_command = none" > "$RCLONE_CONF"

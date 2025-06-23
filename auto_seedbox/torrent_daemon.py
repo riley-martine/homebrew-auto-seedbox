@@ -28,6 +28,11 @@ class Config:
     qbt_user: str
     qbt_pass: str
 
+    ssh_user: str
+    ssh_host: str
+    ssh_port: str
+    ssh_key: str
+
     watch_dir: str
     send_to_kindle: bool
 
