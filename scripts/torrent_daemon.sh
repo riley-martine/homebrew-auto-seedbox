@@ -9,7 +9,6 @@ echo "Started daemon."
 date
 ssh-add --apple-load-keychain
 
-export PATH="bin/:$PATH"
-source bin/set_vars.sh
+source set_vars.sh
 
 auto-seedbox
