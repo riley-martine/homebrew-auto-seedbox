@@ -6,7 +6,7 @@ class AutoSeedbox < Formula
   url "/Users/zero/dev/homebrew-auto-seedbox",
     using: :git,
     tag: "main"
-  version "2.0.5"
+  version "2.0.6"
   # url "https://github.com/riley-martine/homebrew-auto-seedbox/archive/refs/tags/v1.0.4.tar.gz"
   # sha256 "c2e2e46b505fb27fbda187ba3afde41344bfae167f19a8ed5ad268e1db265571"
   license "GPL-3.0-only"
