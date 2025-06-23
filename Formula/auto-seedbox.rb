@@ -38,7 +38,6 @@ class AutoSeedbox < Formula
   end
 
   service do
-    # working_dir libexec
     run libexec/"bin/torrent_daemon.sh"
     keep_alive true
     log_path var/"log/auto-seedbox.log"
