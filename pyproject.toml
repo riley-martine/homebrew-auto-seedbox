@@ -15,12 +15,12 @@ watchdog = "^5.0.3"
 macfsevents = "^0.8.4"
 dataclasses-json = "^0.6.3"
 qbittorrent-api = "^2024.9.67"
-libtorrent = "^2.0.11"
 
 [tool.poetry.group.dev.dependencies]
 mypy = "^1.13.0"
 ruff = "^0.1.9"
 types-paramiko = "^3.5.0.20240928"
+libtorrent = "^2.0.11"
 
 [tool.ruff]
 ignore = [

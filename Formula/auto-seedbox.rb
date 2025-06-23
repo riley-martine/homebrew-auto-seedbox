@@ -5,7 +5,7 @@ class AutoSeedbox < Formula
 
   url "/Users/zero/dev/homebrew-auto-seedbox",
     using: :git,
-    tag: "main"
+    branch: "main"
   version "2.0.6"
   # url "https://github.com/riley-martine/homebrew-auto-seedbox/archive/refs/tags/v1.0.4.tar.gz"
   # sha256 "c2e2e46b505fb27fbda187ba3afde41344bfae167f19a8ed5ad268e1db265571"
@@ -17,13 +17,14 @@ class AutoSeedbox < Formula
   depends_on "nmap"
   # TODO remove rg dependency
   depends_on "ripgrep"
-  depends_on "python@3.12"
+  depends_on "python@3.13"
+  depends_on "libtorrent-rasterbar"
 
   head "https://github.com/riley-martine/homebrew-auto-seedbox.git", branch: "main"
 
 
   def install
-    virtualenv_create(libexec, "python3.12")
+    virtualenv_create(libexec, "python3.13")
     virtualenv_install_with_resources
 
     (libexec/"bin").mkpath
