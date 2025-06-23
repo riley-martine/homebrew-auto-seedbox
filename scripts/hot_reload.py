@@ -36,6 +36,7 @@ class ChangeHandler(FileSystemEventHandler):
 
 
 if __name__ == "__main__":
+    os.environ["PATH"] = "scripts/:" + os.environ["PATH"]
     script_to_watch = "auto_seedbox/torrent_daemon.py"
     event_handler = ChangeHandler(script_to_watch)
     observer = Observer()

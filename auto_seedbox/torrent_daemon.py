@@ -55,7 +55,8 @@ class Torrent:
 def torrent(path: Path) -> Torrent:
     """Construct a Torrent object from a path to a .torrent."""
 
-    info = libtorrent.torrent_info(path.resolve().as_posix())
+    resolved_path = path.resolve().as_posix()
+    info = libtorrent.torrent_info(resolved_path)
     file_info = info.files()
     paths = [Path(file_info.file_path(i)) for i in range(file_info.num_files())]
 
@@ -185,18 +186,22 @@ def poll(
         if not in_progress:
             return
         logging.info(f"Polling for: {[t.name for t in in_progress]}")
-        qbt_info = qbt_client.torrents_info(
-            torrent_hashes="|".join(t.info_hash for t in in_progress),
-        )
+        try:
+            qbt_info = qbt_client.torrents_info(
+                torrent_hashes="|".join(t.info_hash for t in in_progress),
+            )
+        except qbittorrentapi.exceptions.HTTPError:
+            continue
+        # TODO print in-progress numbers
         completed = (q for q in qbt_info if q.progress == 1)
 
         for c in completed:
-            download_target = c.content_path.removeprefix(c.save_path)
-            logging.info(
-                f"Seedbox download of {c.name} complete. Downloading to {download_target}..."
-            )
+            download_target = c.content_path.removeprefix(c.save_path).removeprefix("/")
             remote_path = f"seedbox:{c.content_path}"
             local_path = Path(config.watch_dir) / download_target
+            logging.info(
+                f"Seedbox download of {c.name} complete. Downloading to {local_path}..."
+            )
             # Use rclone as it has multi-threaded transfers,
             # which are much faster for large files.
             subprocess.run(
