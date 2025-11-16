@@ -1,7 +1,5 @@
-#!/opt/homebrew/bin/python3.12
+#!/usr/bin/env python3
 """Get the top-level directory or file inside the torrent to look for to download."""
-
-# Needs to be brew python3.12 for libtorrent bindings
 
 import pathlib
 import sys

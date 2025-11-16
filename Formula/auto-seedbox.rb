@@ -1,26 +1,25 @@
 class AutoSeedbox < Formula
   include Language::Python::Virtualenv
-  desc "Watch macOS downloads folder for .torrents, upload them to seedbox, download resulting files."
+  desc "Watch downloads for .torrents, upload to seedbox, download resulting files"
   homepage "https://github.com/riley-martine/homebrew-auto-seedbox"
 
   url "/Users/zero/dev/homebrew-auto-seedbox",
-    using: :git,
+    using:  :git,
     branch: "main"
-  version "2.0.6"
+  version "2.0.7"
   # url "https://github.com/riley-martine/homebrew-auto-seedbox/archive/refs/tags/v1.0.4.tar.gz"
   # sha256 "c2e2e46b505fb27fbda187ba3afde41344bfae167f19a8ed5ad268e1db265571"
   license "GPL-3.0-only"
 
+  head "https://github.com/riley-martine/homebrew-auto-seedbox.git", branch: "main"
 
   depends_on "jq"
-  depends_on "rclone"
-  depends_on "nmap"
-  # TODO remove rg dependency
-  depends_on "ripgrep"
-  depends_on "python@3.13"
   depends_on "libtorrent-rasterbar"
-
-  head "https://github.com/riley-martine/homebrew-auto-seedbox.git", branch: "main"
+  depends_on "nmap"
+  depends_on "python@3.14"
+  depends_on "rclone"
+  # TODO: remove rg dependency
+  depends_on "ripgrep"
 
   resource "certifi" do
     url "https://files.pythonhosted.org/packages/73/f7/f14b46d4bcd21092d7d3ccef689615220d8a08fb25e564b65d20738e672e/certifi-2025.6.15.tar.gz"
@@ -93,7 +92,7 @@ class AutoSeedbox < Formula
   end
 
   def install
-    virtualenv_create(libexec, "python3.13")
+    # venv = virtualenv_create(libexec, "python3.14")
 
     venv = virtualenv_install_with_resources without: "macfsevents"
 

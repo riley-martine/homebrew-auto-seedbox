@@ -1,7 +1,5 @@
-#!/opt/homebrew/bin/python3.12
+#!/usr/bin/env python3
 """Print the 'name' metadata from a torrent file"""
-
-# Needs to be brew python3.12 for libtorrent bindings
 
 import pathlib
 import sys
